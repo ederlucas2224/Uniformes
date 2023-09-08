@@ -1,0 +1,63 @@
+﻿@model Empleados
+@{
+    ViewData["Title"] = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    Empleados empleado = ViewData["Empleado"] as Empleados;
+    IEnumerable<Grupos> grupos = ViewData["Grupos"] as IEnumerable<Grupos>;
+}
+<div class="card">
+    <div class="card-header">
+        Registrar Empleado
+    </div>
+    <div class="card-body">
+        <form asp-action="Editar" asp-controller="Empleado" method="post">
+            <div class="mb-3">
+                <label class="form-label">Primer Nombre</label>
+                <input asp-for="PrimerNombre" type="text" class="form-control" value="@empleado.PrimerNombre">
+                <span asp-validation-for="PrimerNombre" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Segundo Nombre</label>
+                <input asp-for="SegundoNombre" type="text" class="form-control" value="@empleado.SegundoNombre">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Apellido Paterno</label>
+                <input asp-for="ApellidoPaterno" type="text" class="form-control" value="@empleado.ApellidoPaterno">
+                <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Apellido Materno</label>
+                <input asp-for="ApellidoMaterno" type="text" class="form-control" value="@empleado.ApellidoMaterno">
+                <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+            </div>
+            <div class="dropdown mb-3">
+                <select asp-for="IdGrupo" class="btn btn-secondary dropdown-toggle" type="button">
+                    
+                    @foreach (Grupos grupo in grupos)
+                    {
+                        if(empleado.IdGrupo == grupo.IdGrupo)
+                        {
+                            <option disabled="disabled" selected>@grupo.Nombre</option>
+                        }
+                        <option value="@grupo.IdGrupo">@grupo.Nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="oculto">
+                <input asp-for="IdEmpleado" type="text" class="form-control" value="@empleado.IdEmpleado">
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Listar" asp-controller="Empleado" class="btn btn-warning">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+    <style>
+        .oculto {
+            display: none;
+        }
+    </style>
+

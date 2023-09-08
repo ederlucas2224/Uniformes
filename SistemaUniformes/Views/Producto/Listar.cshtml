@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Listar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    IEnumerable<Productos> productos = ViewData["Productos"] as IEnumerable<Productos>;
+    IEnumerable<Tipos> tipos = ViewData["Tipos"] as IEnumerable<Tipos>;
+}
+<div class="card">
+    <div class="card-header">
+        Lista de Productos
+    </div>
+    <div class="card-body">
+        <a asp-action="Guardar" asp-controller="Producto" class="btn btn-success">Añadir Producto</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Costo</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Editar Producto</th>
+                    <th scope="col">Eliminar Producto</th>
+                </tr>
+            </thead>
+            @foreach (Productos item in productos!)
+            {
+                <tbody>
+                    <tr>
+                        <td>@item.Nombre</td>
+                        <td>@item.Cantidad</td>
+                        <td>$@item.Costo</td>
+                        @foreach(Tipos tipo in tipos!)
+                        {
+                            if(item.IdTipo == tipo.IdTipo)
+                            {
+                                <td>@tipo.Nombre</td>
+                            }
+                        }
+                        <td>
+                            <a class="btn btn-warning" href="/Producto/Editar?id=@item.IdProducto">Editar Producto</a>
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-controller="Producto" asp-route-id="@item.IdProducto" class="btn btn-danger">Eliminar Producto</a>
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+        <a style="float: right;" asp-action="RecibeInfo" asp-controller="Producto" class="btn btn-primary">Generar Orden</a>
+    </div>
+</div>
+

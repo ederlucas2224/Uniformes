@@ -1,0 +1,119 @@
+﻿@using System.Text.Json;
+@{
+    ViewData["Title"] = "OtorgarProductos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    List<Productos> productos = ViewData["Productos"] as List<Productos>;
+    List<Tipos> tipos = ViewData["Tipos"] as List<Tipos>;
+}
+<form asp-action="RecibeInfo" asp-controller="Empleado" method="post">
+    <div class="card">
+        <div>
+            <div class="card-header">
+                Lista de Productos
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Costo</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    @foreach (Productos item in productos!)
+                    {
+                        int indice = productos.IndexOf(item);
+                        <tbody>
+                            <tr>
+                                <td>@item.Nombre</td>
+                                <td>@item.Costo</td>
+                                @foreach (Tipos tipo in tipos!)
+                                {
+                                    if (item.IdTipo == tipo.IdTipo)
+                                    {
+                                        <td>@tipo.Nombre</td>
+                                    }
+                                }
+                                <td>
+                                    <button type="button" class="btn btn-danger" onclick="Restar(@item.IdProducto, @indice)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+                                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                                        </svg>
+                                    </button>
+                                    <input class="text-center" id="listaElementos3-@item.IdProducto" name="@item.IdProducto" value="0" type="text" min="0" />
+                                    <button type="button" class="btn btn-success" onclick="Sumar(@item.IdProducto, @indice)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+                <button style="float: left;" type="submit" class="btn btn-primary">Generar Orden</button>
+                <a style="float: left;" asp-action="Listar" asp-controller="Empleado" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    var listaElementos;
+    var arrayElements = [];
+
+    for (let i = 0; i < @productos.Count(); i++) {
+        arrayElements.push({
+            parametro: 0
+        })
+    }
+
+    function Sumar(param, indice) {
+        arrayElements[indice].parametro = ++arrayElements[indice].parametro;
+        //let object = JSON.parse(param)
+        var idInput = "#listaElementos3-" + param;
+        listaElementos = $(idInput);
+        listaElementos[0].value = arrayElements[indice].parametro;
+    }
+
+    function Restar(parametro, indice) {
+        if (arrayElements[indice].parametro > 0) {
+            //let objeto = JSON.parse(parametro)
+            var Input = "listaElementos3-" + parametro;
+            var inputValue = document.getElementById(Input);
+            arrayElements[indice].parametro = --arrayElements[indice].parametro;
+            inputValue.value = arrayElements[indice].parametro;
+        }
+    }
+</script>
+
+<style>
+    /* Estilos básicos de la tarjeta */
+    .card {
+        max-width: 850px; /* Ancho máximo de la tarjeta */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 0 auto; /* Centra la tarjeta horizontalmente */
+        text-align: center;
+    }
+
+    /* Estilos para la imagen de la tarjeta */
+    .card-img-top {
+        max-width: 100%;
+        height: auto;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    /* Estilos para el contenido de la tarjeta */
+    .card-body {
+        padding: 10px;
+    }
+</style>

@@ -1,0 +1,45 @@
+﻿@model Productos
+@{
+    ViewData["Title"] = "Guardar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    IEnumerable<Tipos> tipos = ViewData["Tipos"] as IEnumerable<Tipos>;
+}
+<div class="card">
+    <div class="card-header">
+        Registrar Producto
+    </div>
+    <div class="card-body">
+        <form asp-action="Guardar" asp-controller="Producto" method="post">
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input asp-for="Nombre" type="text" class="form-control">
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Cantidad</label>
+                <input asp-for="Cantidad" type="number" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Costo</label>
+                <input asp-for="Costo" step="0.01" class="form-control" type="text">
+                <span asp-validation-for="Costo" class="text-danger"></span>
+            </div>
+            <div class="dropdown mb-3">
+                <select asp-for="IdTipo" class="btn btn-secondary dropdown-toggle" type="button">
+                    <option disabled="disabled" selected>Grupos</option>
+                    @foreach (Tipos tipo in tipos!)
+                    {
+                        <option value="@tipo.IdTipo">@tipo.Nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Listar" asp-controller="Producto" class="btn btn-warning">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    Productos producto = ViewData["Producto"] as Productos;
+}
+<div class="card">
+    <div class="card-header">
+        Eliminar Empleado
+    </div>
+    <div class="card-body">
+        <form asp-action="Delete" asp-controller="Producto" method="post">
+            <div class="alert alert-danger" role="alert">
+                Estas seguro de eliminar el producto : @producto.Nombre
+            </div>
+            <div class="mb-3">
+                <button asp-route-id="@producto.IdProducto" type="submit" class="btn btn-primary">Eliminar</button>
+                <a asp-action="Listar" asp-controller="Producto" class="btn btn-warning">Volver a la Lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+

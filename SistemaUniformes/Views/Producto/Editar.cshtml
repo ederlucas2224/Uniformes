@@ -1,0 +1,57 @@
+﻿@model Productos
+@{
+    ViewData["Title"] = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    Productos producto = ViewData["Producto"] as Productos;
+    IEnumerable<Tipos> tipos = ViewData["Tipos"] as IEnumerable<Tipos>;
+}
+<div class="card">
+    <div class="card-header">
+        Registrar Empleado
+    </div>
+    <div class="card-body">
+        <form asp-action="Editar" asp-controller="Producto" method="post">
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input asp-for="Nombre" type="text" class="form-control" value="@producto.Nombre">
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Cantidad</label>
+                <input asp-for="Cantidad" type="text" class="form-control" value="@producto.Cantidad">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Costo</label>
+                <input asp-for="Costo" type="text" class="form-control" value="@producto.Costo">
+                <span asp-validation-for="Costo" class="text-danger"></span>
+            </div>
+            <div class="dropdown mb-3">
+                <select asp-for="IdTipo" class="btn btn-secondary dropdown-toggle" type="button">
+
+                    @foreach (Tipos tipo in tipos)
+                    {
+                        if (producto.IdTipo == tipo.IdTipo)
+                        {
+                            <option disabled="disabled" selected>@tipo.Nombre</option>
+                        }
+                        <option value="@tipo.IdTipo">@tipo.Nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="oculto">
+                <input asp-for="IdProducto" type="text" class="form-control" value="@producto.IdProducto">
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Listar" asp-controller="Producto" class="btn btn-warning">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .oculto {
+        display: none;
+    }
+</style>

@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    Empleados empleado = ViewData["Empleado"] as Empleados;
+}
+<div class="card">
+    <div class="card-header">
+        Eliminar Empleado
+    </div>
+    <div class="card-body">
+        <form asp-action="Delete" asp-controller="Empleado" method="post">
+            <div class="alert alert-danger" role="alert">
+                Estas seguro de eliminar a : @empleado.PrimerNombre @empleado.ApellidoPaterno
+            </div>
+            <div class="mb-3">
+                <button asp-route-id="@empleado.IdEmpleado" type="submit" class="btn btn-primary">Eliminar</button>
+                <a asp-action="Listar" asp-controller="Empleado" class="btn btn-warning">Volver a la Lista</a>
+            </div>
+        </form>
+    </div>
+</div>

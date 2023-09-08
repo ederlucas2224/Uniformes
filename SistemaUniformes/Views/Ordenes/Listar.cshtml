@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Listar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    IEnumerable<OrdenesEntrada> ordenesEntrada = ViewData["OrdenesEntrada"] as IEnumerable<OrdenesEntrada>;
+    IEnumerable<OrdenesSalida> ordenesSalida = ViewData["OrdenesSalida"] as IEnumerable<OrdenesSalida>;
+    IEnumerable<Productos> productos = ViewData["Productos"] as IEnumerable<Productos>;
+    IEnumerable<Empleados> empleados = ViewData["Empleados"] as IEnumerable<Empleados>;
+}
+<h3>Ordenes de Salida</h3>
+<table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id Orden</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Empleado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var or in ordenesSalida)
+        {
+            <tr>
+                <td>@or.IdOrden</td>
+                <td>@or.Cantidad</td>
+                @foreach(var i in productos)
+                {
+                    if(or.IdProducto == i.IdProducto)
+                    {
+                        <td>@i.Nombre</td>
+                    }
+                }
+                @foreach(var e in empleados)
+                {
+                    if(or.IdEmpleado == e.IdEmpleado)
+                    {
+                        <td>@e.PrimerNombre @e.ApellidoPaterno</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<h3>Ordenes de Entrada</h3>
+<table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id Orden</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Producto</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var or in ordenesEntrada)
+        {
+            <tr>
+                <td>@or.IdOrden</td>
+                <td>@or.Cantidad</td>
+                @foreach (var i in productos)
+                {
+                    if (or.IdProducto == i.IdProducto)
+                    {
+                        <td>@i.Nombre</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+

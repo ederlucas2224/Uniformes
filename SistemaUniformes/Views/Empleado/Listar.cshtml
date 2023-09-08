@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Listar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    IEnumerable<Empleados> empleados = ViewData["Empleados"] as IEnumerable<Empleados>;
+    IEnumerable<Grupos> grupos = ViewData["Grupos"] as IEnumerable<Grupos>;
+}
+<div class="card">
+    <div class="card-header">
+        Lista de Empleados
+    </div>
+    <div class="card-body">
+        <a asp-action="Guardar" asp-controller="Empleado" class="btn btn-success">Añadir Empleado</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre Empleado</th>
+                    <th scope="col">Grupo</th>
+                    <th scope="col">Generar Orden</th>
+                    <th scope="col">Actualizar</th>
+                    <th scope="col">Eliminar</th>
+                </tr>
+            </thead>
+            @foreach(Empleados item in empleados!)
+            {
+                <tbody>
+                    <tr>
+                        @if (item.SegundoNombre!.Count() <= 0)
+                        {
+                            <td>@item.PrimerNombre @item.ApellidoPaterno @item.ApellidoMaterno</td>
+                            @foreach (Grupos grupo in grupos!)
+                            {
+                                if(item.IdGrupo == grupo.IdGrupo)
+                                {
+                                    <td>@grupo.Nombre</td>
+                                }
+                            }   
+                        }
+                        else
+                        {
+                            <td>@item.PrimerNombre @item.SegundoNombre @item.ApellidoPaterno @item.ApellidoMaterno</td>
+                            @foreach (Grupos grupo in grupos)
+                            {
+                                if (item.IdGrupo == grupo.IdGrupo)
+                                {
+                                    <td>@grupo.Nombre</td>
+                                }
+                            }
+                        }
+                        <td>
+                            <a asp-action="RecibeInfo" asp-controller="Empleado" asp-route-id="@item.IdEmpleado" class="btn btn-primary">Generar Orden</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" href="/Empleado/Editar?id=@item.IdEmpleado">Editar Empleado</a>
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-controller="Empleado" asp-route-id="@item.IdEmpleado" class="btn btn-danger">Eliminar Empleado</a>
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
+

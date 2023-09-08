@@ -1,0 +1,50 @@
+﻿@model Empleados
+@{
+    ViewData["Title"] = "Guardar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    IEnumerable<Empleados> empleados = ViewData["Empleados"] as IEnumerable<Empleados>;
+    IEnumerable<Grupos> grupos = ViewData["Grupos"] as IEnumerable<Grupos>;
+}
+    <div class="card">
+        <div class="card-header">
+            Registrar Empleado
+        </div>
+        <div class="card-body">
+            <form asp-action="Guardar" asp-controller="Empleado" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Primer Nombre</label>
+                    <input asp-for="PrimerNombre" type="text" class="form-control">
+                    <span asp-validation-for="PrimerNombre" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Segundo Nombre</label>
+                    <input asp-for="SegundoNombre" type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Apellido Paterno</label>
+                    <input asp-for="ApellidoPaterno" type="text" class="form-control">
+                    <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Apellido Materno</label>
+                    <input asp-for="ApellidoMaterno" type="text" class="form-control">
+                    <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+                </div>
+                <div class="dropdown mb-3">
+                <select asp-for="IdGrupo" class="btn btn-secondary dropdown-toggle" type="button">
+                        <option disabled="disabled" selected>Grupos</option>
+                        @foreach (Grupos grupo in grupos)
+                        {
+                            <option value="@grupo.IdGrupo">@grupo.Nombre</option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a asp-action="Listar" asp-controller="Empleado" class="btn btn-warning">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
